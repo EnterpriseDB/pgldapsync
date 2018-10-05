@@ -1,0 +1,49 @@
+##########################################################################
+# LDAP access configuration
+##########################################################################
+import ldap
+
+# LDAP server connection details
+LDAP_SERVER_URI = "ldap://ldap.example.com"
+
+# The base DN for the search
+LDAP_BASE_DN = "ou=People,dc=example,dc=com"
+
+# Search scope for users
+LDAP_SEARCH_SCOPE = ldap.SCOPE_SUBTREE
+
+# The LDAP attribute containing usernames
+LDAP_USERNAME_ATTRIBUTE = 'uid'
+
+# An array of users to ignore
+LDAP_IGNORE_USERS = ['Manager']
+
+
+##########################################################################
+# Postgres access configuration
+##########################################################################
+
+# Postgres server connection string
+PG_SERVER_CONNSTR = "hostaddr=127.0.0.1 port=5432 user=postgres dbname=postgres"
+
+# An array of login role names to ignore
+PG_IGNORE_LOGIN_ROLES = ['postgres']
+
+##########################################################################
+# General configuration
+##########################################################################
+
+# Add LDAP users to Postgres if they don't exist, or ignore them?
+ADD_LDAP_USERS_TO_POSTGRES = True
+
+# Remove Postgres login roles if they don't exist in LDAP, or ignore them?
+REMOVE_LOGIN_ROLES_FROM_POSTGRES = True
+
+##########################################################################
+# Load local config overrides
+##########################################################################
+
+try:
+    from config_local import *
+except ImportError:
+    pass
