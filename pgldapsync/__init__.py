@@ -63,15 +63,14 @@ def main():
     if pg_login_roles is None:
         sys.exit(1)
 
-
     login_roles_to_create = get_create_login_roles(ldap_users, pg_login_roles)
     login_roles_to_drop = get_drop_login_roles(ldap_users, pg_login_roles)
 
     # Create/drop roles if required
     have_work = ((config.ADD_LDAP_USERS_TO_POSTGRES and
                   len(login_roles_to_create) > 0) or
-                    (config.REMOVE_LOGIN_ROLES_FROM_POSTGRES and
-                     len(login_roles_to_drop) > 0))
+                 (config.REMOVE_LOGIN_ROLES_FROM_POSTGRES and
+                  len(login_roles_to_drop) > 0))
 
     login_roles_added = 0
     login_roles_dropped = 0
