@@ -1,7 +1,10 @@
+import ldap
+import os
+import sys
+
 ##########################################################################
 # LDAP access configuration
 ##########################################################################
-import ldap
 
 # LDAP server connection details
 LDAP_SERVER_URI = "ldap://ldap.example.com"
@@ -46,4 +49,10 @@ REMOVE_LOGIN_ROLES_FROM_POSTGRES = True
 try:
     from config_local import *
 except ImportError:
-    pass
+    path = os.path.join(os.path.dirname(os.path.realpath(__file__)),
+                        "config_local.py")
+    msg = "The local configuration file (%s) could not " \
+          "be found.\nPlease create the file and try again.\n" % path
+
+    sys.stderr.write(msg)
+    sys.exit(1)

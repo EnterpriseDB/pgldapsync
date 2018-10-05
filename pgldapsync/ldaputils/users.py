@@ -1,4 +1,5 @@
 import ldap
+import sys
 
 from pgldapsync import config
 
@@ -21,7 +22,7 @@ def get_ldap_users(conn):
             users.append(record[config.LDAP_USERNAME_ATTRIBUTE][0])
 
     except ldap.LDAPError, e:
-        sys.stderr.write("Error retrieving LDAP users: %s" %
+        sys.stderr.write("Error retrieving LDAP users: %s\n" %
                          e.message['desc'])
         return None
 
