@@ -72,6 +72,10 @@ def main():
                   len(login_roles_to_create) > 0) or
                     (config.REMOVE_LOGIN_ROLES_FROM_POSTGRES and
                      len(login_roles_to_drop) > 0))
+
+    roles_added = 0
+    roles_dropped = 0
+
     if have_work:
         if args.dry_run:
             print("BEGIN;")
@@ -85,6 +89,7 @@ def main():
                 print("""CREATE ROLE "%s" LOGIN;""" % role.replace('\'', '\\\''))
             else:
                 cur.execute("""CREATE ROLE "%s" LOGIN;""" % role.replace('\'', '\\\''))
+                roles_added = roles_added + 1
 
     if config.REMOVE_LOGIN_ROLES_FROM_POSTGRES:
         for role in login_roles_to_drop:
@@ -92,6 +97,7 @@ def main():
                 print("""DROP ROLE "%s";""" % role.replace('\'', '\\\''))
             else:
                 cur.execute("""DROP ROLE "%s";""" % role.replace('\'', '\\\''))
+                roles_dropped = roles_dropped + 1
 
     if have_work:
         if args.dry_run:
@@ -99,3 +105,8 @@ def main():
         else:
             cur.execute("COMMIT;")
             cur.close()
+            print("Roles added to Postgres:     %d" % roles_added)
+            print("Roles dropped from Postgres: %d" % roles_dropped)
+    else:
+        print("No roles were added or dropped.")
+
