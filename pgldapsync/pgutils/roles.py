@@ -4,14 +4,13 @@ from pgldapsync import config
 
 
 def get_pg_login_roles(conn):
-
     cur = conn.cursor()
 
     try:
         cur.execute("SELECT rolname FROM pg_authid WHERE rolcanlogin;")
         rows = cur.fetchall()
     except psycopg2.Error, e:
-        print ("Error retrieving Postgres login roles: %s" % e)
+        sys.stderr.write("Error retrieving Postgres login roles: %s" % e)
         return None
 
     roles = []

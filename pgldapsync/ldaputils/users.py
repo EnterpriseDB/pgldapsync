@@ -21,7 +21,8 @@ def get_ldap_users(conn):
             users.append(record[config.LDAP_USERNAME_ATTRIBUTE][0])
 
     except ldap.LDAPError, e:
-        print ("Error retrieving LDAP users: %s" % e.message['desc'])
+        sys.stderr.write("Error retrieving LDAP users: %s" %
+                         e.message['desc'])
         return None
 
     return users
