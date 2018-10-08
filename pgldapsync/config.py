@@ -12,10 +12,15 @@ LDAP_SERVER_URI = "ldap://ldap.example.com"
 # The base DN for the search
 LDAP_BASE_DN = "ou=People,dc=example,dc=com"
 
+# User to bind to the directory as. Leave empty for anonymous binding.
+LDAP_BIND_USERNAME = ""
+LDAP_BIND_PASSWORD = ""
+
 # Search scope for users
 LDAP_SEARCH_SCOPE = ldap.SCOPE_SUBTREE
 
-# The LDAP attribute containing usernames
+# The LDAP attribute containing usernames. In OpenLDAP, this may be 'uid'
+# whilst in AD, 'sAMAccountName' might be appropriate.
 LDAP_USERNAME_ATTRIBUTE = 'uid'
 
 # An array of users to ignore
