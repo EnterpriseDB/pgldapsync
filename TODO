@@ -8,6 +8,7 @@
   - NOINHERIT
   - BYPASSRLS
   - CONNECTION LIMIT
-- Add support for allowing arbitrary GUC to be set
+- Add support for allowing arbitrary GUCs to be set
 - Add support for including login roles in one or more group roles
 - Add support for syncing group roles and their membership from LDAP
+- Allow LDAP filtering to be configured (and include AD example for users)
