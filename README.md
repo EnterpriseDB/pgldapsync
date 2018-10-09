@@ -17,4 +17,22 @@ be executed to stdout), run it like this:
 
     python pgldapsync.py --dry-run
 
+## Creating a virtual environment for dev/test
+
+Assuming you have the virtualenv package installed:
+
+    venv pgldapsync
+    sh pgldapsync/bin/activate.sh
+    pip install -r requirements.txt
+    
+Adapt the first command as required for your environment/Python
+version.
+
+## Creating a package
+
+To create a package (wheel), run the following in your virtual 
+environment:
+
+    python setup.py sdist bdist_wheel
+
 Copyright 2018, EnterpriseDB Corporation
