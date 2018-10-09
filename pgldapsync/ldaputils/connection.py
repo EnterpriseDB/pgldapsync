@@ -3,6 +3,7 @@ import ldap
 
 from pgldapsync import config
 
+
 def connect_ldap_server(ldap_url):
     try:
         conn = ldap.initialize(ldap_url)
