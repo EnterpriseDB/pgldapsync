@@ -6,3 +6,5 @@
 - Add support for syncing group roles and their membership from LDAP
 - Add command line option to specify the configuration file.
 - Tidy up/refactor pgldapsync/__init__.py
+- Add copyright notices to all files
+- Confirm the licence!
