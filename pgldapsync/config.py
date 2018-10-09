@@ -16,6 +16,9 @@ LDAP_BASE_DN = 'ou=People,dc=example,dc=com'
 LDAP_BIND_USERNAME = ''
 LDAP_BIND_PASSWORD = ''
 
+# Use TLS? If the URI scheme is ldaps://, this is ignored.
+LDAP_USE_STARTTLS = True
+
 # Search scope for users
 LDAP_SEARCH_SCOPE = ldap.SCOPE_SUBTREE
 
