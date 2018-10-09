@@ -22,7 +22,7 @@ be executed to stdout), run it like this:
 Assuming you have the virtualenv package installed:
 
     venv pgldapsync
-    sh pgldapsync/bin/activate.sh
+    source pgldapsync/bin/activate.sh
     pip install -r requirements.txt
     
 Adapt the first command as required for your environment/Python
