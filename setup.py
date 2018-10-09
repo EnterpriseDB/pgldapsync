@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 # Get the requirements list for the current version of Python
-req_file='requirements.txt'
+req_file = 'requirements.txt'
 
 with open(req_file, 'r') as reqf:
     if sys.version_info[0] >= 3:
@@ -30,7 +30,7 @@ setuptools.setup(
         "License :: OSI Approved :: PostgreSQL License",
         "Operating System :: OS Independent",
     ],
-    entry_points = {
+    entry_points={
         'console_scripts': ['pgldapsync=pgldapsync.__init__:main'],
     }
 )

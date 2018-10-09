@@ -1,5 +1,4 @@
 import argparse
-import sys
 
 from pgldapsync.ldaputils.connection import connect_ldap_server
 from pgldapsync.ldaputils.users import *
@@ -77,6 +76,7 @@ def main():
     login_roles_add_errors = 0
     login_roles_drop_errors = 0
 
+    cur = None
     if have_work:
         if args.dry_run:
             print("BEGIN;")

@@ -19,7 +19,7 @@ LDAP_BIND_PASSWORD = ""
 # Search scope for users
 LDAP_SEARCH_SCOPE = ldap.SCOPE_SUBTREE
 
-# The LDAP attribute containing usernames. In OpenLDAP, this may be 'uid'
+# The LDAP attribute containing user names. In OpenLDAP, this may be 'uid'
 # whilst in AD, 'sAMAccountName' might be appropriate.
 LDAP_USERNAME_ATTRIBUTE = 'uid'
 
