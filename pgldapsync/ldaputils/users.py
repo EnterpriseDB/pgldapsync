@@ -9,7 +9,7 @@ def get_ldap_users(conn):
 
     try:
         res = conn.search(config.LDAP_BASE_DN, config.LDAP_SEARCH_SCOPE,
-                          '(cn=*)')
+                          config.LDAP_FILTER_STRING)
 
         while 1:
             types, data = conn.result(res, 0)
@@ -22,8 +22,12 @@ def get_ldap_users(conn):
             users.append(record[config.LDAP_USERNAME_ATTRIBUTE][0])
 
     except ldap.LDAPError, e:
-        sys.stderr.write("Error retrieving LDAP users: [%s] %s\n" %
-                         (e.message['desc'], e.message['info']))
+        if hasattr(e.message, 'info'):
+            sys.stderr.write("Error retrieving LDAP users: [%s] %s\n" %
+                            (e.message['desc'], e.message['info']))
+        else:
+            sys.stderr.write("Error retrieving LDAP users: %s\n" %
+                            (e.message['desc']))
         return None
 
     return users
