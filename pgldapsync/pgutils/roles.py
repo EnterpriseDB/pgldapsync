@@ -37,3 +37,37 @@ def get_filtered_pg_login_roles(conn):
             pass
 
     return roles
+
+
+def get_role_attributes():
+    attribute_list = ''
+    if config.ROLE_ATTRIBUTE_SUPERUSER:
+        attribute_list = attribute_list + 'SUPERUSER'
+    else:
+        attribute_list = attribute_list + 'NOSUPERUSER'
+
+    if config.ROLE_ATTRIBUTE_CREATEDB:
+        attribute_list = attribute_list + ' CREATEDB'
+    else:
+        attribute_list = attribute_list + ' NOCREATEDB'
+
+    if config.ROLE_ATTRIBUTE_CREATEROLE:
+        attribute_list = attribute_list + ' CREATEROLE'
+    else:
+        attribute_list = attribute_list + ' NOCREATEROLE'
+
+    if config.ROLE_ATTRIBUTE_NOINHERIT:
+        attribute_list = attribute_list + ' NOINHERIT'
+    else:
+        attribute_list = attribute_list + ' INHERIT'
+
+    if config.ROLE_ATTRIBUTE_BYPASSRLS:
+        attribute_list = attribute_list + ' BYPASSRLS'
+    else:
+        attribute_list = attribute_list + ' NOBYPASSRLS'
+
+    if config.ROLE_ATTRIBUTE_CONNECTION_LIMIT is not None:
+        attribute_list = attribute_list + ' CONNECTION LIMIT ' + \
+                         str(config.ROLE_ATTRIBUTE_CONNECTION_LIMIT)
+
+    return attribute_list

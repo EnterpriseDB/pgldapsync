@@ -85,16 +85,19 @@ def main():
             cur.execute("BEGIN;")
 
     if config.ADD_LDAP_USERS_TO_POSTGRES:
+        # Generate the attribute list
+        attribute_list = get_role_attributes()
+
         for role in login_roles_to_create:
             if args.dry_run:
-                print("""CREATE ROLE "%s" LOGIN;""" %
-                      role.replace('\'', '\\\''))
+                print("""CREATE ROLE "%s" LOGIN %s;""" %
+                      (role.replace('\'', '\\\''), attribute_list))
             else:
                 try:
                     # We can't use a real parameterised query here as we're
                     # working with an object, not data.
-                    cur.execute("""SAVEPOINT cr; CREATE ROLE "%s" LOGIN;""" %
-                                role.replace('\'', '\\\''))
+                    cur.execute("""SAVEPOINT cr; CREATE ROLE "%s" LOGIN %s;""" %
+                                (role.replace('\'', '\\\''), attribute_list))
                     login_roles_added = login_roles_added + 1
                 except psycopg2.Error, e:
                     sys.stderr.write("Error creating role %s: %s" % (role, e))

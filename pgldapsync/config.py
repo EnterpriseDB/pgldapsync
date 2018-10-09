@@ -51,6 +51,19 @@ ADD_LDAP_USERS_TO_POSTGRES = True
 # Remove Postgres login roles if they don't exist in LDAP, or ignore them?
 REMOVE_LOGIN_ROLES_FROM_POSTGRES = True
 
+# Attributes to grant to login roles in Postgres. Note these attributes
+# are only applied to roles when created. Existing roles are unaffected.
+ROLE_ATTRIBUTE_SUPERUSER = False
+ROLE_ATTRIBUTE_CREATEDB = False
+ROLE_ATTRIBUTE_CREATEROLE = False
+ROLE_ATTRIBUTE_NOINHERIT = False
+ROLE_ATTRIBUTE_BYPASSRLS = False
+
+# Role connection limit attribute. Set to None to ignore, or an integer.
+# Note this attribute is only applied to roles when created. Existing
+# roles are unaffected.
+ROLE_ATTRIBUTE_CONNECTION_LIMIT = None
+
 ##########################################################################
 # Load local config overrides
 ##########################################################################
