@@ -15,6 +15,14 @@ import ldap
 
 
 def connect_ldap_server(config):
+    """Setup the connection to the LDAP server.
+
+    Args:
+        config (ConfigParser): The application configuration
+
+    Returns:
+        LDAPObject: The LDAP connection object
+    """
     ldap.set_option(ldap.OPT_X_TLS_REQUIRE_CERT, ldap.OPT_X_TLS_NEVER)
 
     try:

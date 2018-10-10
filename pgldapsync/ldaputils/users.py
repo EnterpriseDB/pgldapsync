@@ -15,6 +15,14 @@ import sys
 
 
 def get_ldap_users(config, conn):
+    """Get a list of users from the LDAP server.
+
+    Args:
+        config (ConfigParser): The application configuration
+        conn (LDAPObject): The LDAP connection object
+    Returns:
+        str[]: A list of user names
+    """
     users = []
 
     scope_int = ldap.SCOPE_ONELEVEL
@@ -56,6 +64,15 @@ def get_ldap_users(config, conn):
 
 
 def get_filtered_ldap_users(config, conn):
+    """Get a filtered list of users from the LDAP server, having removed users
+    to be ignored.
+
+    Args:
+        config (ConfigParser): The application configuration
+        conn (LDAPObject): The LDAP connection object
+    Returns:
+        str[]: A filtered list of user names
+    """
     users = get_ldap_users(config, conn)
     if users is None:
         return None

@@ -18,10 +18,17 @@ from pgldapsync.ldaputils.users import *
 from pgldapsync.pgutils.connection import connect_pg_server
 from pgldapsync.pgutils.roles import *
 
-global config
-
 
 def get_create_login_roles(ldap_users, pg_roles):
+    """Get a filtered list of login roles to create.
+
+    Args:
+        ldap_users (str[]): A list of users in LDAP
+        pg_roles (str[]): A list of roles in Postgres
+
+    Returns:
+        str[]: A list of roles that exist in LDAP but not Postgres
+    """
     roles = []
 
     for user in ldap_users:
@@ -32,6 +39,15 @@ def get_create_login_roles(ldap_users, pg_roles):
 
 
 def get_drop_login_roles(ldap_users, pg_roles):
+    """Get a filtered list of login roles to drop.
+
+    Args:
+        ldap_users (str[]): A list of users in LDAP
+        pg_roles (str[]): A list of roles in Postgres
+
+    Returns:
+        str[]: A list of roles that exist in Postgres but not LDAP
+    """
     roles = []
 
     for role in pg_roles:
@@ -42,9 +58,7 @@ def get_drop_login_roles(ldap_users, pg_roles):
 
 
 def main():
-    """
-    The core structure of the app
-    """
+    """The core structure of the app."""
 
     # Command line arguments
     parser = argparse.ArgumentParser(

@@ -15,6 +15,13 @@ import sys
 
 
 def get_pg_login_roles(conn):
+    """Get a list of login roles from the Postgres server.
+
+    Args:
+        conn (connection): The Postgres connection object
+    Returns:
+        str[]: A list of user names
+    """
     cur = conn.cursor()
 
     try:
@@ -35,6 +42,15 @@ def get_pg_login_roles(conn):
 
 
 def get_filtered_pg_login_roles(config, conn):
+    """Get a filtered list of login roles from the Postgres server, having
+    removed users to be ignored.
+
+    Args:
+        config (ConfigParser): The application configuration
+        conn (connection): The Postgres connection object
+    Returns:
+        str[]: A filtered list of login roles
+    """
     roles = get_pg_login_roles(conn)
     if roles is None:
         return None
@@ -50,6 +66,13 @@ def get_filtered_pg_login_roles(config, conn):
 
 
 def get_role_attributes(config):
+    """Generate a list of role attributes to use when creating login roles
+
+    Args:
+        config (ConfigParser): The application configuration
+    Returns:
+        str: A SQL snippet listing the role attributes
+    """
     attribute_list = ''
     if config.getboolean('general', 'role_attribute_superuser'):
         attribute_list = attribute_list + 'SUPERUSER'
@@ -86,6 +109,17 @@ def get_role_attributes(config):
 
 
 def get_role_grants(config, role, with_admin=False):
+    """Get a SQL string to GRANT membership to the configured roles when
+    creating a new login role.
+
+    Args:
+        config (ConfigParser): The application configuration
+        role (str): The role name to be granted additional roles
+        with_admin (bool): Generate a list of roles that will have the WITH
+            ADMIN OPTION specified, if True
+    Returns:
+        str: A SQL snippet listing the role GRANT statements required
+    """
     roles = ''
     sql = ''
 
