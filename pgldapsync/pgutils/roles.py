@@ -71,3 +71,30 @@ def get_role_attributes(config):
                                                ))
 
     return attribute_list
+
+
+def get_role_grants(config, role, with_admin=False):
+    roles = ''
+    sql = ''
+
+    if with_admin:
+        roles_to_grant = config.get('general',
+                                    'roles_to_grant_with_admin').split(',')
+    else:
+        roles_to_grant = config.get('general', 'roles_to_grant').split(',')
+
+    for r in roles_to_grant:
+        roles = roles + '"' + r + '", '
+
+    if roles.endswith(', '):
+        roles = roles[:-2]
+
+    if roles != '':
+        sql = 'GRANT %s TO "%s"' % (roles, role)
+
+        if with_admin:
+            sql = sql + " WITH ADMIN OPTION"
+
+        sql = sql + ';'
+
+    return sql

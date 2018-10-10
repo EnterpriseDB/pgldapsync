@@ -70,6 +70,16 @@ role_attribute_bypassrls = false
 # roles are unaffected.
 role_attribute_connection_limit = -1
 
+# A command delimited list of roles to grant membership to when creating
+# login roles. Note that existing roles will not be modified. Roles specified
+# here must already exist in Postgres.
+roles_to_grant = group1,group2
+
+# A command delimited list of roles to grant membership to with ADMIN when
+# creating login roles. Note that existing roles will not be modified. Roles
+# specified here must already exist in Postgres.
+roles_to_grant_with_admin = group3
+
 
 
 

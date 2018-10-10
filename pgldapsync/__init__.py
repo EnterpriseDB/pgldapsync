@@ -104,36 +104,43 @@ def main():
         attribute_list = get_role_attributes(config)
 
         for role in login_roles_to_create:
+            role_name = role.replace('\'', '\\\'')
+            role_grants = get_role_grants(config, role_name)
+            role_admin_grants = get_role_grants(config, role_name, True)
+
             if args.dry_run:
-                print("""CREATE ROLE "%s" LOGIN %s;""" %
-                      (role.replace('\'', '\\\''), attribute_list))
+                print('CREATE ROLE "%s" LOGIN %s;' %
+                      (role_name, attribute_list))
+                print role_grants
+                print role_admin_grants
             else:
                 try:
                     # We can't use a real parameterised query here as we're
                     # working with an object, not data.
-                    cur.execute("""SAVEPOINT cr; CREATE ROLE "%s" LOGIN %s;""" %
-                                (role.replace('\'', '\\\''), attribute_list))
+                    cur.execute('SAVEPOINT cr; CREATE ROLE "%s" LOGIN %s;%s%s'
+                                % (role_name, attribute_list,
+                                   role_grants, role_admin_grants))
                     login_roles_added = login_roles_added + 1
                 except psycopg2.Error, e:
                     sys.stderr.write("Error creating role %s: %s" % (role, e))
                     login_roles_add_errors = login_roles_add_errors + 1
-                    cur.execute("""ROLLBACK TO SAVEPOINT cr;""")
+                    cur.execute('ROLLBACK TO SAVEPOINT cr;')
 
     if config.getboolean('general', 'remove_login_roles_from_postgres'):
         for role in login_roles_to_drop:
             if args.dry_run:
-                print("""DROP ROLE "%s";""" % role.replace('\'', '\\\''))
+                print('DROP ROLE "%s";' % role.replace('\'', '\\\''))
             else:
                 try:
                     # We can't use a real parameterised query here as we're
                     # working with an object, not data.
-                    cur.execute("""SAVEPOINT dr; DROP ROLE "%s";""" %
+                    cur.execute('SAVEPOINT dr; DROP ROLE "%s";' %
                                 role.replace('\'', '\\\''))
                     login_roles_dropped = login_roles_dropped + 1
                 except psycopg2.Error, e:
                     sys.stderr.write("Error dropping role %s: %s" % (role, e))
                     login_roles_drop_errors = login_roles_drop_errors + 1
-                    cur.execute("""ROLLBACK TO SAVEPOINT dr;""")
+                    cur.execute('ROLLBACK TO SAVEPOINT dr;')
 
     if have_work:
         if args.dry_run:

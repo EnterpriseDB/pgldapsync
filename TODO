@@ -1,6 +1,5 @@
 - Add support for CA and client certificates
 - Add support for allowing arbitrary GUCs to be set
-- Add support for including login roles in one or more group roles
 - Add support for syncing group roles and their membership from LDAP
 - Tidy up/refactor pgldapsync/__init__.py
 - Add copyright notices to all files
