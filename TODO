@@ -1,4 +1,5 @@
 - Add support for CA and client certificates
 - Add support for allowing arbitrary GUCs to be set
+- Add support for granting SUPERUSER status based on membership of a specific OU
 - Add support for syncing group roles and their membership from LDAP
 - Tidy up/refactor pgldapsync/__init__.py
