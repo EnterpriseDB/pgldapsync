@@ -1,8 +1,6 @@
 import psycopg2
 import sys
 
-from pgldapsync import config
-
 
 def get_pg_login_roles(conn):
     cur = conn.cursor()
@@ -24,13 +22,13 @@ def get_pg_login_roles(conn):
     return roles
 
 
-def get_filtered_pg_login_roles(conn):
+def get_filtered_pg_login_roles(config, conn):
     roles = get_pg_login_roles(conn)
     if roles is None:
         return None
 
     # Remove ignored roles
-    for role in config.PG_IGNORE_LOGIN_ROLES:
+    for role in config.get('postgres', 'ignore_login_roles').split(','):
         try:
             roles.remove(role)
         except:
@@ -39,35 +37,37 @@ def get_filtered_pg_login_roles(conn):
     return roles
 
 
-def get_role_attributes():
+def get_role_attributes(config):
     attribute_list = ''
-    if config.ROLE_ATTRIBUTE_SUPERUSER:
+    if config.getboolean('general', 'role_attribute_superuser'):
         attribute_list = attribute_list + 'SUPERUSER'
     else:
         attribute_list = attribute_list + 'NOSUPERUSER'
 
-    if config.ROLE_ATTRIBUTE_CREATEDB:
+    if config.getboolean('general', 'role_attribute_createdb'):
         attribute_list = attribute_list + ' CREATEDB'
     else:
         attribute_list = attribute_list + ' NOCREATEDB'
 
-    if config.ROLE_ATTRIBUTE_CREATEROLE:
+    if config.getboolean('general', 'role_attribute_createrole'):
         attribute_list = attribute_list + ' CREATEROLE'
     else:
         attribute_list = attribute_list + ' NOCREATEROLE'
 
-    if config.ROLE_ATTRIBUTE_NOINHERIT:
+    if config.getboolean('general', 'role_attribute_noinherit'):
         attribute_list = attribute_list + ' NOINHERIT'
     else:
         attribute_list = attribute_list + ' INHERIT'
 
-    if config.ROLE_ATTRIBUTE_BYPASSRLS:
+    if config.getboolean('general', 'role_attribute_bypassrls'):
         attribute_list = attribute_list + ' BYPASSRLS'
     else:
         attribute_list = attribute_list + ' NOBYPASSRLS'
 
-    if config.ROLE_ATTRIBUTE_CONNECTION_LIMIT is not None:
+    if config.getint('general', 'role_attribute_connection_limit') != -1:
         attribute_list = attribute_list + ' CONNECTION LIMIT ' + \
-                         str(config.ROLE_ATTRIBUTE_CONNECTION_LIMIT)
+                         str(config.getint('general',
+                                               'role_attribute_connection_limit'
+                                               ))
 
     return attribute_list

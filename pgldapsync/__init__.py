@@ -1,9 +1,12 @@
 import argparse
+import ConfigParser
 
 from pgldapsync.ldaputils.connection import connect_ldap_server
 from pgldapsync.ldaputils.users import *
 from pgldapsync.pgutils.connection import connect_pg_server
 from pgldapsync.pgutils.roles import *
+
+global config
 
 
 def get_create_login_roles(ldap_users, pg_roles):
@@ -37,6 +40,8 @@ def main():
     parser.add_argument("--dry-run", "-d", action='store_true',
                         help="don't apply changes to the database server, "
                              "dump the SQL to stdout instead")
+    parser.add_argument("config", metavar="CONFIG_FILE",
+                        help="the configuration file to read")
 
     args = parser.parse_args()
 
@@ -44,21 +49,29 @@ def main():
         print("-- This is an LDAP sync dry run.")
         print("-- The commands below can be manually executed if required.")
 
+    # Set the config file path in builtins so config.py can find it
+    config = ConfigParser.ConfigParser()
+    try:
+        config.read(args.config)
+    except ConfigParser.Error, e:
+        sys.stderr.write("Error reading configuration file: %s\n" % e)
+        sys.exit(1)
+
     # Get the LDAP users
-    ldap_conn = connect_ldap_server(config.LDAP_SERVER_URI)
+    ldap_conn = connect_ldap_server(config)
     if ldap_conn is None:
         sys.exit(1)
 
-    ldap_users = get_filtered_ldap_users(ldap_conn)
+    ldap_users = get_filtered_ldap_users(config, ldap_conn)
     if ldap_users is None:
         sys.exit(1)
 
     # Get the Postgres users
-    pg_conn = connect_pg_server(config.PG_SERVER_CONNSTR)
+    pg_conn = connect_pg_server(config.get('postgres', 'server_connstr'))
     if pg_conn is None:
         sys.exit(1)
 
-    pg_login_roles = get_filtered_pg_login_roles(pg_conn)
+    pg_login_roles = get_filtered_pg_login_roles(config, pg_conn)
     if pg_login_roles is None:
         sys.exit(1)
 
@@ -66,9 +79,11 @@ def main():
     login_roles_to_drop = get_drop_login_roles(ldap_users, pg_login_roles)
 
     # Create/drop roles if required
-    have_work = ((config.ADD_LDAP_USERS_TO_POSTGRES and
+    have_work = ((config.getboolean('general',
+                                    'add_ldap_users_to_postgres') and
                   len(login_roles_to_create) > 0) or
-                 (config.REMOVE_LOGIN_ROLES_FROM_POSTGRES and
+                 (config.getboolean('general',
+                                    'remove_login_roles_from_postgres') and
                   len(login_roles_to_drop) > 0))
 
     login_roles_added = 0
@@ -84,9 +99,9 @@ def main():
             cur = pg_conn.cursor()
             cur.execute("BEGIN;")
 
-    if config.ADD_LDAP_USERS_TO_POSTGRES:
+    if config.getboolean('general', 'add_ldap_users_to_postgres'):
         # Generate the attribute list
-        attribute_list = get_role_attributes()
+        attribute_list = get_role_attributes(config)
 
         for role in login_roles_to_create:
             if args.dry_run:
@@ -104,7 +119,7 @@ def main():
                     login_roles_add_errors = login_roles_add_errors + 1
                     cur.execute("""ROLLBACK TO SAVEPOINT cr;""")
 
-    if config.REMOVE_LOGIN_ROLES_FROM_POSTGRES:
+    if config.getboolean('general', 'remove_login_roles_from_postgres'):
         for role in login_roles_to_drop:
             if args.dry_run:
                 print("""DROP ROLE "%s";""" % role.replace('\'', '\\\''))
@@ -136,4 +151,3 @@ def main():
                       login_roles_drop_errors)
     else:
         print("No login roles were added or dropped.")
-

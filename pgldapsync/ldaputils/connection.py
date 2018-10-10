@@ -1,14 +1,12 @@
 import sys
 import ldap
 
-from pgldapsync import config
 
-
-def connect_ldap_server(ldap_url):
+def connect_ldap_server(config):
     ldap.set_option(ldap.OPT_X_TLS_REQUIRE_CERT, ldap.OPT_X_TLS_NEVER)
 
     try:
-        conn = ldap.initialize(ldap_url)
+        conn = ldap.initialize(config.get('ldap', 'server_uri'))
         conn.protocol_version = ldap.VERSION3
 
     except ldap.LDAPError, e:
@@ -20,8 +18,8 @@ def connect_ldap_server(ldap_url):
     conn.set_option(ldap.OPT_REFERRALS, 0)
 
     # Enable TLS if required
-    if (config.LDAP_USE_STARTTLS and not
-        config.LDAP_SERVER_URI[:5].lower() == 'ldaps'):
+    if (config.getboolean('ldap', 'use_starttls') and not
+        config.get('ldap', 'server_uri')[:5].lower() == 'ldaps'):
         try:
             conn.start_tls_s()
         except ldap.LDAPError, e:
@@ -29,10 +27,10 @@ def connect_ldap_server(ldap_url):
             return None
 
     # Bind, if configured to do so
-    if config.LDAP_BIND_USERNAME != "":
+    if config.get('ldap', 'bind_username') != "":
         try:
-            conn.simple_bind_s(config.LDAP_BIND_USERNAME,
-                               config.LDAP_BIND_PASSWORD)
+            conn.simple_bind_s(config.get('ldap', 'bind_username'),
+                               config.get('ldap', 'bind_password'))
         except ldap.LDAPError, e:
             sys.stderr.write("Error binding to the LDAP server: %s\n" % e)
             return None
