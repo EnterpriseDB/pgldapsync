@@ -1,3 +1,15 @@
+################################################################################
+#
+# pgldapsync
+#
+# Synchronise Postgres roles with users in an LDAP directory.
+#
+# pgldapsync/__init__.py - Main entry point
+#
+# Copyright 2018, EnterpriseDB Corporation
+#
+################################################################################
+
 import argparse
 import ConfigParser
 

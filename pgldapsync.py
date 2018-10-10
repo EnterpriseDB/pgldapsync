@@ -1,5 +1,17 @@
 #!/usr/bin/env python
 
+################################################################################
+#
+# pgldapsync
+#
+# Synchronise Postgres roles with users in an LDAP directory.
+#
+# pgldapsync.py - Application runner
+#
+# Copyright 2018, EnterpriseDB Corporation
+#
+################################################################################
+
 # -*- coding: utf-8 -*-
 import re
 import sys

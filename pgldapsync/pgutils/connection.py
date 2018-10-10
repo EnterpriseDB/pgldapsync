@@ -1,3 +1,15 @@
+################################################################################
+#
+# pgldapsync
+#
+# Synchronise Postgres roles with users in an LDAP directory.
+#
+# pgldapsync/pgutils/connection.py - Postgres connection functions
+#
+# Copyright 2018, EnterpriseDB Corporation
+#
+################################################################################
+
 import sys
 import psycopg2
 

@@ -1,3 +1,15 @@
+################################################################################
+#
+# pgldapsync
+#
+# Synchronise Postgres roles with users in an LDAP directory.
+#
+# setup.py - Package creation
+#
+# Copyright 2018, EnterpriseDB Corporation
+#
+################################################################################
+
 import setuptools
 import sys
 

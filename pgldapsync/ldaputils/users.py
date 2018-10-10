@@ -1,3 +1,15 @@
+################################################################################
+#
+# pgldapsync
+#
+# Synchronise Postgres roles with users in an LDAP directory.
+#
+# pgldapsync/ldaputils/users.py - LDAP user functions
+#
+# Copyright 2018, EnterpriseDB Corporation
+#
+################################################################################
+
 import ldap
 import sys
 
