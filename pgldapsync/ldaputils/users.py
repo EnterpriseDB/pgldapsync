@@ -14,12 +14,13 @@ import ldap
 import sys
 
 
-def get_ldap_users(config, conn):
+def get_ldap_users(config, conn, admin):
     """Get a list of users from the LDAP server.
 
     Args:
         config (ConfigParser): The application configuration
         conn (LDAPObject): The LDAP connection object
+        admin (bool): Return users in the admin group?
     Returns:
         str[]: A list of user names
     """
@@ -36,10 +37,15 @@ def get_ldap_users(config, conn):
     elif scope_str == 'SCOPE_SUBTREE':
         scope_int = ldap.SCOPE_SUBTREE
 
+    if admin:
+        base_dn = config.get('ldap', 'admin_base_dn')
+        search_filter = config.get('ldap', 'admin_filter_string')
+    else:
+        base_dn = config.get('ldap', 'base_dn')
+        search_filter = config.get('ldap', 'filter_string')
+
     try:
-        res = conn.search(config.get('ldap', 'base_dn'),
-                          scope_int,
-                          config.get('ldap', 'filter_string'))
+        res = conn.search(base_dn, scope_int, search_filter)
 
         while 1:
             types, data = conn.result(res, 0)
@@ -63,17 +69,18 @@ def get_ldap_users(config, conn):
     return users
 
 
-def get_filtered_ldap_users(config, conn):
+def get_filtered_ldap_users(config, conn, admin):
     """Get a filtered list of users from the LDAP server, having removed users
     to be ignored.
 
     Args:
         config (ConfigParser): The application configuration
         conn (LDAPObject): The LDAP connection object
+        admin (bool): Return users in the admin group?
     Returns:
         str[]: A filtered list of user names
     """
-    users = get_ldap_users(config, conn)
+    users = get_ldap_users(config, conn, admin)
     if users is None:
         return None
 

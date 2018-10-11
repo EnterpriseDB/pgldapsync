@@ -88,8 +88,17 @@ def main():
     if ldap_conn is None:
         sys.exit(1)
 
-    ldap_users = get_filtered_ldap_users(config, ldap_conn)
+    ldap_users = get_filtered_ldap_users(config, ldap_conn, False)
     if ldap_users is None:
+        sys.exit(1)
+
+    # Get the LDAP admin users, if the base DN and filter are configured
+    if config.get('ldap', 'admin_base_dn') == '' or \
+            config.get('ldap', 'admin_filter_string') == '':
+        ldap_admin_users = []
+    else:
+        ldap_admin_users = get_ldap_users(config, ldap_conn, True)
+    if ldap_admin_users is None:
         sys.exit(1)
 
     # Get the Postgres users
@@ -126,13 +135,12 @@ def main():
             cur.execute("BEGIN;")
 
     if config.getboolean('general', 'add_ldap_users_to_postgres'):
-        # Generate the attribute list
-        attribute_list = get_role_attributes(config)
-
         for role in login_roles_to_create:
             role_name = role.replace('\'', '\\\'')
             role_grants = get_role_grants(config, role_name)
             role_admin_grants = get_role_grants(config, role_name, True)
+            attribute_list = get_role_attributes(config,
+                                                 (role in ldap_admin_users))
 
             if args.dry_run:
                 print('CREATE ROLE "%s" LOGIN %s;' %

@@ -65,16 +65,17 @@ def get_filtered_pg_login_roles(config, conn):
     return roles
 
 
-def get_role_attributes(config):
+def get_role_attributes(config, admin):
     """Generate a list of role attributes to use when creating login roles
 
     Args:
         config (ConfigParser): The application configuration
+        admin (bool): Should the user be a superuser regardless of the config?
     Returns:
         str: A SQL snippet listing the role attributes
     """
     attribute_list = ''
-    if config.getboolean('general', 'role_attribute_superuser'):
+    if config.getboolean('general', 'role_attribute_superuser') or admin:
         attribute_list = attribute_list + 'SUPERUSER'
     else:
         attribute_list = attribute_list + 'NOSUPERUSER'
@@ -102,8 +103,8 @@ def get_role_attributes(config):
     if config.getint('general', 'role_attribute_connection_limit') != -1:
         attribute_list = attribute_list + ' CONNECTION LIMIT ' + \
                          str(config.getint('general',
-                                               'role_attribute_connection_limit'
-                                               ))
+                                           'role_attribute_connection_limit'
+                                           ))
 
     return attribute_list
 

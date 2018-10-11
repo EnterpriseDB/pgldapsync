@@ -7,9 +7,6 @@
 # LDAP server connection details
 server_uri = ldap://ldap.example.com
 
-# The base DN for the search
-base_dn = ou=People,dc=example,dc=com
-
 # User to bind to the directory as. Leave empty for anonymous binding.
 bind_username =
 bind_password =
@@ -21,9 +18,24 @@ use_starttls = false
 # SCOPE_SUBTREE)
 search_scope = SCOPE_ONELEVEL
 
+# The base DN for the user search
+base_dn = CN=Users,dc=example,dc=com
+
 # Filter string for the user search. For OpenLDAP, '(cn=*)' may well be enough.
-# For AD, you might use '(&(objectCategory=person)(objectClass=user))'
-filter_string = (cn=*)
+# For AD, you might use '(objectClass=user)'
+filter_string = (objectClass=user)
+
+# The base DN for the admin user search. This may be the same as the base_dn, or
+# may point to an alternate OU. If empty, no search will be performed.
+admin_base_dn = CN=Users,dc=example,dc=com
+
+# The filter string for users that should be created as superusers regardless of
+# the [general]/role_attribute_superuser setting. With AD you might use a filter
+# such as: (&(objectClass=user)(memberof=CN=MYGROUP,CN=Users,dc=example,dc=com))
+# If, for example on OpenLDAP, your admin users are members of an alternate OU,
+# then a filter of (cn=*) may suffice.
+# If empty, no search will be performed.
+admin_filter_string = (&(objectClass=user)(memberof=CN=MYGROUP,CN=Users,dc=example,dc=com))
 
 # The LDAP attribute containing user names. In OpenLDAP, this may be 'uid'
 # whilst in AD, 'sAMAccountName' might be appropriate.
