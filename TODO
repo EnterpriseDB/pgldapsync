@@ -1,3 +1,2 @@
 - Add support for CA and client certificates
 - Add support for syncing group roles and their membership from LDAP
-- Tidy up/refactor pgldapsync/__init__.py
