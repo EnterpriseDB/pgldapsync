@@ -14,9 +14,13 @@ bind_password =
 # Use TLS? If the URI scheme is ldaps://, this is ignored.
 use_starttls = false
 
-# Search scope for users (one of SCOPE_BASE, SCOPE_ONELEVEL, SCOPE_SUBORDINATE,
-# SCOPE_SUBTREE)
-search_scope = SCOPE_ONELEVEL
+# TLS/SSL certificates. Specify if required, otherwise leave empty
+ca_cert_file = ''
+cert_file = ''
+key_file = ''
+
+# Search scope for users (one of BASE, LEVEL or SUBTREE)
+search_scope = LEVEL
 
 # The base DN for the user search
 base_dn = CN=Users,dc=example,dc=com
