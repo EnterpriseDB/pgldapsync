@@ -10,6 +10,7 @@
 #
 ################################################################################
 
+import ast
 import psycopg2
 import sys
 
@@ -145,3 +146,26 @@ def get_role_grants(config, role, with_admin=False):
         sql = sql + ';'
 
     return sql
+
+
+def get_guc_list(config, role):
+    """Get a SQL string to set GUCs for the specified role
+
+    Args:
+        config (ConfigParser): The application configuration
+        role (str): The role name to be granted additional roles
+    Returns:
+        str: A SQL snippet listing the ALTER ROLE statements required
+    """
+    sql = ''
+    gucs = ast.literal_eval(config.get('general', 'gucs_to_set'))
+
+    for guc in gucs:
+        if gucs[guc][1] != '':
+            sql += 'ALTER ROLE "%s" IN DATABASE "%s" SET %s TO \'%s\';\n' % \
+                   (role, gucs[guc][1], guc, gucs[guc][0].replace("'", "''"))
+        else:
+            sql += 'ALTER ROLE "%s" SET %s TO \'%s\';\n' % \
+                   (role, guc, gucs[guc][0].replace("'", "''"))
+
+    return sql.rstrip()

@@ -92,6 +92,17 @@ roles_to_grant = group1,group2
 # specified here must already exist in Postgres.
 roles_to_grant_with_admin = group3
 
+# A dictionary of GUCs to set for each user, as "ALTER ROLE foo IN DATABASE bar
+# SET blah TO value" would do. The dictionary should look as follows:
+# gucs_to_set = {
+#     'client_min_messages': ['debug1', ''],
+#     'application_name': ['My Cool App', 'postgres']
+#     }
+# Note that the database field may be left empty to apply to all databases.
+# Additionally note that the closing brace must be properly indented!
+gucs_to_set = {
+    }
+
 
 
 

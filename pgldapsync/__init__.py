@@ -141,19 +141,21 @@ def main():
             role_admin_grants = get_role_grants(config, role_name, True)
             attribute_list = get_role_attributes(config,
                                                  (role in ldap_admin_users))
+            guc_list = get_guc_list(config, role_name)
 
             if args.dry_run:
                 print('CREATE ROLE "%s" LOGIN %s;' %
                       (role_name, attribute_list))
                 print role_grants
                 print role_admin_grants
+                print guc_list
             else:
                 try:
                     # We can't use a real parameterised query here as we're
                     # working with an object, not data.
-                    cur.execute('SAVEPOINT cr; CREATE ROLE "%s" LOGIN %s;%s%s'
+                    cur.execute('SAVEPOINT cr; CREATE ROLE "%s" LOGIN %s;%s%s%s'
                                 % (role_name, attribute_list,
-                                   role_grants, role_admin_grants))
+                                   role_grants, role_admin_grants, guc_list))
                     login_roles_added = login_roles_added + 1
                 except psycopg2.Error, e:
                     sys.stderr.write("Error creating role %s: %s" % (role, e))
