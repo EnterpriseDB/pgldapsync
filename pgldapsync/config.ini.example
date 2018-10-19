@@ -4,6 +4,9 @@
 
 [ldap]
 
+# Debug LDAP connections?
+debug = false
+
 # LDAP server connection details
 server_uri = ldap://ldap.example.com
 

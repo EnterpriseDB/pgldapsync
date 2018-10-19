@@ -64,10 +64,6 @@ def main():
     # Read the command line options
     args = read_command_line()
 
-    if args.dry_run:
-        print("-- This is an LDAP sync dry run.")
-        print("-- The commands below can be manually executed if required.")
-
     # Read the config file
     config = read_config(args.config)
 
@@ -116,6 +112,11 @@ def main():
     login_roles_dropped = 0
     login_roles_add_errors = 0
     login_roles_drop_errors = 0
+
+    # Warn the user we're in dry run mode
+    if args.dry_run:
+        print("-- This is an LDAP sync dry run.")
+        print("-- The commands below can be manually executed if required.")
 
     cur = None
     if have_work:

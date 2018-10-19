@@ -1,2 +1,4 @@
-- Add support for CA and client certificates
 - Add support for syncing group roles and their membership from LDAP
+
+  Do we need this? If so, how will it work exactly, as there are multiple
+  ways in which an LDAP user can be members of groups.
