@@ -44,5 +44,6 @@ setuptools.setup(
     ],
     entry_points={
         'console_scripts': ['pgldapsync=pgldapsync.__init__:main'],
-    }
+    },
+    include_package_data=True
 )

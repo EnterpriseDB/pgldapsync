@@ -1,0 +1,2 @@
+include pgldapsync/config_default.ini
+include pgldapsync/config.ini.example
