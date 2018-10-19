@@ -27,7 +27,7 @@ with open(req_file, 'r') as reqf:
 
 setuptools.setup(
     name="pgldapsync",
-    version="0.0.1",
+    version="1.0.0",
     author="Dave Page",
     author_email="dave.page@enterprisedb.com",
     description="Synchronise LDAP users to Postgres",
