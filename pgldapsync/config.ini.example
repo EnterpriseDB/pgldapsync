@@ -18,9 +18,9 @@ bind_password =
 use_starttls = false
 
 # TLS/SSL certificates. Specify if required, otherwise leave empty
-ca_cert_file = ''
-cert_file = ''
-key_file = ''
+ca_cert_file =
+cert_file =
+key_file =
 
 # Search scope for users (one of BASE, LEVEL or SUBTREE)
 search_scope = LEVEL
