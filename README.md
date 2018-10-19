@@ -34,6 +34,6 @@ version.
 To create a package (wheel), run the following in your virtual 
 environment:
 
-    python setup.py sdist bdist_wheel
+    python setup.py sdist bdist_wheel --universal
 
 Copyright 2018, EnterpriseDB Corporation
