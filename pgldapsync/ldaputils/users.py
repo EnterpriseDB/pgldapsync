@@ -39,13 +39,13 @@ def get_ldap_users(config, conn, admin):
                     config.get('ldap', 'search_scope'),
                     attributes=[config.get('ldap', 'username_attribute')]
                           )
-    except LDAPInvalidScopeError, e:
+    except LDAPInvalidScopeError as e:
         sys.stderr.write("Error searching the LDAP directory: %s\n" % e)
         sys.exit(1)
-    except LDAPAttributeError, e:
+    except LDAPAttributeError as e:
         sys.stderr.write("Error searching the LDAP directory: %s\n" % e)
         sys.exit(1)
-    except LDAPInvalidFilterError, e:
+    except LDAPInvalidFilterError as e:
         sys.stderr.write("Error searching the LDAP directory: %s\n" % e)
         sys.exit(1)
 
@@ -61,7 +61,7 @@ def get_filtered_ldap_users(config, conn, admin):
 
     Args:
         config (ConfigParser): The application configuration
-        conn (dap3.core.connection.Connection): The LDAP connection object
+        conn (ldap3.core.connection.Connection): The LDAP connection object
         admin (bool): Return users in the admin group?
     Returns:
         str[]: A filtered list of user names

@@ -80,9 +80,9 @@ def connect_ldap_server(config):
                               config.get('ldap', 'bind_username'),
                               config.get('ldap', 'bind_password'),
                               auto_bind=True)
-    except LDAPSocketOpenError, e:
+    except LDAPSocketOpenError as e:
         sys.stderr.write("Error connecting to the LDAP server: %s\n" % e)
-    except LDAPBindError, e:
+    except LDAPBindError as e:
         sys.stderr.write("Error binding to the LDAP server: %s\n" % e)
 
     # Debug
@@ -93,7 +93,7 @@ def connect_ldap_server(config):
     if uri.scheme != 'ldaps' and config.getboolean('ldap', 'use_starttls'):
         try:
             conn.start_tls()
-        except LDAPStartTLSError, e:
+        except LDAPStartTLSError as e:
             sys.stderr.write("Error starting TLS: %s\n" % e)
             return None
 

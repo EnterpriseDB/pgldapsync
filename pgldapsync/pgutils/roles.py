@@ -28,7 +28,7 @@ def get_pg_login_roles(conn):
     try:
         cur.execute("SELECT rolname FROM pg_authid WHERE rolcanlogin;")
         rows = cur.fetchall()
-    except psycopg2.Error, e:
+    except psycopg2.Error as e:
         sys.stderr.write("Error retrieving Postgres login roles: %s\n" % e)
         return None
 

@@ -11,8 +11,12 @@
 ################################################################################
 
 import argparse
-import ConfigParser
 import os
+
+try:
+    import ConfigParser
+except ImportError:
+    import configparser as ConfigParser
 
 from pgldapsync.ldaputils.connection import connect_ldap_server
 from pgldapsync.ldaputils.users import *
@@ -57,7 +61,7 @@ def read_config(file):
 
     try:
         config.read(defaults)
-    except ConfigParser.Error, e:
+    except ConfigParser.Error as e:
         sys.stderr.write(
             "Error reading default configuration file (%s): %s\n" %
             (defaults, e))
@@ -65,7 +69,7 @@ def read_config(file):
 
     try:
         config.read(file)
-    except ConfigParser.Error, e:
+    except ConfigParser.Error as e:
         sys.stderr.write(
             "Error reading user configuration file (%s): %s\n" %
             (file, e))
@@ -161,9 +165,9 @@ def main():
                 # It's a dry run, so just print the output
                 print('CREATE ROLE "%s" LOGIN %s;' %
                       (role_name, attribute_list))
-                print role_grants
-                print role_admin_grants
-                print guc_list
+                print(role_grants)
+                print(role_admin_grants)
+                print(guc_list)
             else:
 
                 # This is a live run, so directly execute the SQL generated.
@@ -177,7 +181,7 @@ def main():
                                 % (role_name, attribute_list,
                                    role_grants, role_admin_grants, guc_list))
                     login_roles_added = login_roles_added + 1
-                except psycopg2.Error, e:
+                except psycopg2.Error as e:
                     sys.stderr.write("Error creating role %s: %s" % (role, e))
                     login_roles_add_errors = login_roles_add_errors + 1
                     cur.execute('ROLLBACK TO SAVEPOINT cr;')
@@ -204,7 +208,7 @@ def main():
                     cur.execute('SAVEPOINT dr; DROP ROLE "%s";' %
                                 role.replace('\'', '\\\''))
                     login_roles_dropped = login_roles_dropped + 1
-                except psycopg2.Error, e:
+                except psycopg2.Error as e:
                     sys.stderr.write("Error dropping role %s: %s" % (role, e))
                     login_roles_drop_errors = login_roles_drop_errors + 1
                     cur.execute('ROLLBACK TO SAVEPOINT dr;')
