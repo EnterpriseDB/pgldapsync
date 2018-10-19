@@ -1,4 +1,16 @@
 ##########################################################################
+#
+# config.ini.example
+#
+# This file is a template for your site-specific configuration. Copy it,
+# and modify to suit your requirements.
+#
+# Some values have defaults which are specified in config_default.ini.
+# Others *must* be set in your configuration file.
+#
+##########################################################################
+
+##########################################################################
 # LDAP access configuration
 ##########################################################################
 
@@ -7,7 +19,7 @@
 # Debug LDAP connections?
 debug = false
 
-# LDAP server connection details
+# LDAP server connection details (REQUIRED)
 server_uri = ldap://ldap.example.com
 
 # User to bind to the directory as. Leave empty for anonymous binding.
@@ -25,11 +37,11 @@ key_file =
 # Search scope for users (one of BASE, LEVEL or SUBTREE)
 search_scope = LEVEL
 
-# The base DN for the user search
+# The base DN for the user search (REQUIRED)
 base_dn = CN=Users,dc=example,dc=com
 
 # Filter string for the user search. For OpenLDAP, '(cn=*)' may well be enough.
-# For AD, you might use '(objectClass=user)'
+# For AD, you might use '(objectClass=user)' (REQUIRED)
 filter_string = (objectClass=user)
 
 # The base DN for the admin user search. This may be the same as the base_dn, or
@@ -45,7 +57,7 @@ admin_base_dn = CN=Users,dc=example,dc=com
 admin_filter_string = (&(objectClass=user)(memberof=CN=MYGROUP,CN=Users,dc=example,dc=com))
 
 # The LDAP attribute containing user names. In OpenLDAP, this may be 'uid'
-# whilst in AD, 'sAMAccountName' might be appropriate.
+# whilst in AD, 'sAMAccountName' might be appropriate. (REQUIRED)
 username_attribute = uid
 
 # A command delimited list of users to ignore
@@ -58,7 +70,7 @@ ignore_users = Manager,ldap.sync
 
 [postgres]
 
-# Postgres server connection string
+# Postgres server connection string (REQUIRED)
 server_connstr = hostaddr=127.0.0.1 port=5432 dbname=postgres user=postgres
 
 # A comma delimited list of login role names to ignore
