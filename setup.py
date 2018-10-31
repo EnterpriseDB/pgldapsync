@@ -39,7 +39,7 @@ setuptools.setup(
     classifiers=[
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 2.7",
-        "License :: OSI Approved :: PostgreSQL License",
+        "License :: Other/Proprietary License :: EDB Limited Use License",
         "Operating System :: OS Independent",
     ],
     entry_points={
