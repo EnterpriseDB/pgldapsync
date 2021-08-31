@@ -36,4 +36,4 @@ environment:
 
     python setup.py sdist bdist_wheel --universal
 
-Copyright 2018, EnterpriseDB Corporation
+Copyright 2018 - 2021, EnterpriseDB Corporation

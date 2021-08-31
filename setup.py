@@ -31,6 +31,7 @@ setuptools.setup(
     author="Dave Page",
     author_email="dave.page@enterprisedb.com",
     description="Synchronise LDAP users to Postgres",
+    license='PostgreSQL',
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/enterprisedb/pgldapsync",
@@ -39,7 +40,7 @@ setuptools.setup(
     classifiers=[
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 2.7",
-        "License :: Other/Proprietary License :: EDB Limited Use License",
+        "License :: OSI Approved :: PostgreSQL License",
         "Operating System :: OS Independent",
     ],
     entry_points={

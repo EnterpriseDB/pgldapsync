@@ -1,4 +1,4 @@
-################################################################################
+###############################################################################
 #
 # pgldapsync
 #
@@ -6,9 +6,9 @@
 #
 # pgldapsync/ldaputils/connection.py - LDAP connection functions
 #
-# Copyright 2018, EnterpriseDB Corporation
+# Copyright 2018 - 2021, EnterpriseDB Corporation
 #
-################################################################################
+###############################################################################
 
 from ldap3 import Connection, Server, Tls
 from ldap3.core.exceptions import *

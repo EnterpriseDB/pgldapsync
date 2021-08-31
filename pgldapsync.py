@@ -8,7 +8,7 @@
 #
 # pgldapsync.py - Application runner
 #
-# Copyright 2018, EnterpriseDB Corporation
+# Copyright 2018 - 2021, EnterpriseDB Corporation
 #
 ################################################################################
 
