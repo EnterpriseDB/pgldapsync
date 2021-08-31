@@ -14,6 +14,9 @@
 
 """pgldapsync application runner."""
 
+# FIX THIS!
+# pylint: disable=import-self
+
 import re
 import sys
 

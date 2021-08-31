@@ -10,6 +10,9 @@
 
 """pgldapsync main entry point."""
 
+# FIX THIS!
+# pylint: disable=too-many-branches,too-many-locals,too-many-statements
+
 import argparse
 import os
 

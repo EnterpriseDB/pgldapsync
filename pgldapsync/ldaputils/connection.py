@@ -10,6 +10,9 @@
 
 """LDAP connection functions."""
 
+# FIX THIS!
+# pylint: disable=too-many-branches
+
 import ssl
 import sys
 
