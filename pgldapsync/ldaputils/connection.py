@@ -11,7 +11,8 @@
 ###############################################################################
 
 from ldap3 import Connection, Server, Tls
-from ldap3.core.exceptions import *
+from ldap3.core.exceptions import LDAPBindError, LDAPSocketOpenError, \
+    LDAPStartTLSError
 import ssl
 import sys
 

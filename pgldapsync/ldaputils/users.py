@@ -10,7 +10,8 @@
 #
 ###############################################################################
 
-from ldap3.core.exceptions import *
+from ldap3.core.exceptions import LDAPInvalidFilterError, \
+    LDAPInvalidScopeError, LDAPAttributeError
 import sys
 
 
