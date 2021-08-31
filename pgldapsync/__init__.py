@@ -4,11 +4,11 @@
 #
 # Synchronise Postgres roles with users in an LDAP directory.
 #
-# pgldapsync/__init__.py - Main entry point
-#
 # Copyright 2018 - 2021, EnterpriseDB Corporation
 #
 ###############################################################################
+
+"""pgldapsync main entry point."""
 
 import argparse
 import os
@@ -61,18 +61,18 @@ def read_config(file):
 
     try:
         config.read(defaults)
-    except ConfigParser.Error as e:
+    except ConfigParser.Error as exception:
         sys.stderr.write(
             "Error reading default configuration file (%s): %s\n" %
-            (defaults, e))
+            (defaults, exception))
         sys.exit(1)
 
     try:
         config.read(file)
-    except ConfigParser.Error as e:
+    except ConfigParser.Error as exception:
         sys.stderr.write(
             "Error reading user configuration file (%s): %s\n" %
-            (file, e))
+            (file, exception))
         sys.exit(1)
 
     return config
@@ -181,8 +181,9 @@ def main():
                                 % (role_name, attribute_list,
                                    role_grants, role_admin_grants, guc_list))
                     login_roles_added = login_roles_added + 1
-                except psycopg2.Error as e:
-                    sys.stderr.write("Error creating role %s: %s" % (role, e))
+                except psycopg2.Error as exception:
+                    sys.stderr.write("Error creating role %s: %s" % (role,
+                                                                     exception))
                     login_roles_add_errors = login_roles_add_errors + 1
                     cur.execute('ROLLBACK TO SAVEPOINT cr;')
 
@@ -208,8 +209,9 @@ def main():
                     cur.execute('SAVEPOINT dr; DROP ROLE "%s";' %
                                 role.replace('\'', '\\\''))
                     login_roles_dropped = login_roles_dropped + 1
-                except psycopg2.Error as e:
-                    sys.stderr.write("Error dropping role %s: %s" % (role, e))
+                except psycopg2.Error as exception:
+                    sys.stderr.write("Error dropping role %s: %s" % (role,
+                                                                     exception))
                     login_roles_drop_errors = login_roles_drop_errors + 1
                     cur.execute('ROLLBACK TO SAVEPOINT dr;')
 

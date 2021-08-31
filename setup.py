@@ -4,22 +4,20 @@
 #
 # Synchronise Postgres roles with users in an LDAP directory.
 #
-# setup.py - Package creation
-#
-# Copyright 2018, EnterpriseDB Corporation
+# Copyright 2018 - 2021, EnterpriseDB Corporation
 #
 ################################################################################
 
-import setuptools
+"""pgldapsync package creation."""
+
 import sys
+import setuptools
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 # Get the requirements list for the current version of Python
-req_file = 'requirements.txt'
-
-with open(req_file, 'r') as reqf:
+with open('requirements.txt', 'r') as reqf:
     if sys.version_info[0] >= 3:
         required = reqf.read().splitlines()
     else:

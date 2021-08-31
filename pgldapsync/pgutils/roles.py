@@ -4,15 +4,16 @@
 #
 # Synchronise Postgres roles with users in an LDAP directory.
 #
-# pgldapsync/pgutils/roles.py - Postgres role functions
-#
 # Copyright 2018 - 2021, EnterpriseDB Corporation
 #
 ###############################################################################
 
+"""Postgres role functions."""
+
+import sys
+
 import ast
 import psycopg2
-import sys
 
 
 def get_pg_login_roles(conn):
@@ -28,8 +29,9 @@ def get_pg_login_roles(conn):
     try:
         cur.execute("SELECT rolname FROM pg_authid WHERE rolcanlogin;")
         rows = cur.fetchall()
-    except psycopg2.Error as e:
-        sys.stderr.write("Error retrieving Postgres login roles: %s\n" % e)
+    except psycopg2.Error as exception:
+        sys.stderr.write("Error retrieving Postgres login roles: %s\n" %
+                         exception)
         return None
 
     roles = []
@@ -60,7 +62,7 @@ def get_filtered_pg_login_roles(config, conn):
     for role in config.get('postgres', 'ignore_login_roles').split(','):
         try:
             roles.remove(role)
-        except:
+        except ValueError:
             pass
 
     return roles
@@ -131,8 +133,8 @@ def get_role_grants(config, role, with_admin=False):
     else:
         roles_to_grant = config.get('general', 'roles_to_grant').split(',')
 
-    for r in roles_to_grant:
-        roles = roles + '"' + r + '", '
+    for role_to_grant in roles_to_grant:
+        roles = roles + '"' + role_to_grant + '", '
 
     if roles.endswith(', '):
         roles = roles[:-2]

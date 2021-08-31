@@ -4,15 +4,15 @@
 #
 # Synchronise Postgres roles with users in an LDAP directory.
 #
-# pgldapsync/ldaputils/users.py - LDAP user functions
-#
 # Copyright 2018 - 2021, EnterpriseDB Corporation
 #
 ###############################################################################
 
+"""LDAP user functions."""
+
+import sys
 from ldap3.core.exceptions import LDAPInvalidFilterError, \
     LDAPInvalidScopeError, LDAPAttributeError
-import sys
 
 
 def get_ldap_users(config, conn, admin):
@@ -40,14 +40,14 @@ def get_ldap_users(config, conn, admin):
                     config.get('ldap', 'search_scope'),
                     attributes=[config.get('ldap', 'username_attribute')]
                           )
-    except LDAPInvalidScopeError as e:
-        sys.stderr.write("Error searching the LDAP directory: %s\n" % e)
+    except LDAPInvalidScopeError as exception:
+        sys.stderr.write("Error searching the LDAP directory: %s\n" % exception)
         sys.exit(1)
-    except LDAPAttributeError as e:
-        sys.stderr.write("Error searching the LDAP directory: %s\n" % e)
+    except LDAPAttributeError as exception:
+        sys.stderr.write("Error searching the LDAP directory: %s\n" % exception)
         sys.exit(1)
-    except LDAPInvalidFilterError as e:
-        sys.stderr.write("Error searching the LDAP directory: %s\n" % e)
+    except LDAPInvalidFilterError as exception:
+        sys.stderr.write("Error searching the LDAP directory: %s\n" % exception)
         sys.exit(1)
 
     for entry in conn.entries:
@@ -75,7 +75,7 @@ def get_filtered_ldap_users(config, conn, admin):
     for user in config.get('ldap', 'ignore_users').split(','):
         try:
             users.remove(user)
-        except:
+        except ValueError:
             pass
 
     return users

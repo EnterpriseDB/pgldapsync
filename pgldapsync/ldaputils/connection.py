@@ -4,17 +4,19 @@
 #
 # Synchronise Postgres roles with users in an LDAP directory.
 #
-# pgldapsync/ldaputils/connection.py - LDAP connection functions
-#
 # Copyright 2018 - 2021, EnterpriseDB Corporation
 #
 ###############################################################################
 
+"""LDAP connection functions."""
+
+import ssl
+import sys
+
 from ldap3 import Connection, Server, Tls
 from ldap3.core.exceptions import LDAPBindError, LDAPSocketOpenError, \
     LDAPStartTLSError
-import ssl
-import sys
+
 
 try:
     from urllib.parse import urlparse
@@ -81,10 +83,11 @@ def connect_ldap_server(config):
                               config.get('ldap', 'bind_username'),
                               config.get('ldap', 'bind_password'),
                               auto_bind=True)
-    except LDAPSocketOpenError as e:
-        sys.stderr.write("Error connecting to the LDAP server: %s\n" % e)
-    except LDAPBindError as e:
-        sys.stderr.write("Error binding to the LDAP server: %s\n" % e)
+    except LDAPSocketOpenError as exception:
+        sys.stderr.write("Error connecting to the LDAP server: %s\n" %
+                         exception)
+    except LDAPBindError as exception:
+        sys.stderr.write("Error binding to the LDAP server: %s\n" % exception)
 
     # Debug
     if config.getboolean('ldap', 'debug'):
@@ -94,8 +97,8 @@ def connect_ldap_server(config):
     if uri.scheme != 'ldaps' and config.getboolean('ldap', 'use_starttls'):
         try:
             conn.start_tls()
-        except LDAPStartTLSError as e:
-            sys.stderr.write("Error starting TLS: %s\n" % e)
+        except LDAPStartTLSError as exception:
+            sys.stderr.write("Error starting TLS: %s\n" % exception)
             return None
 
     # Debug

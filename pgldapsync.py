@@ -6,13 +6,14 @@
 #
 # Synchronise Postgres roles with users in an LDAP directory.
 #
-# pgldapsync.py - Application runner
-#
 # Copyright 2018 - 2021, EnterpriseDB Corporation
 #
 ################################################################################
 
 # -*- coding: utf-8 -*-
+
+"""pgldapsync application runner."""
+
 import re
 import sys
 
