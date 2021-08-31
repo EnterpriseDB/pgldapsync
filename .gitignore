@@ -1,1 +1,5 @@
-.idea
+/.idea/
+/build/
+/dist/
+/pgldapsync.egg-info/
+/pgldapsync/config.ini
