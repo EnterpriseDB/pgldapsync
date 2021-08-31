@@ -11,6 +11,7 @@
 """LDAP user functions."""
 
 import sys
+
 from ldap3.core.exceptions import LDAPInvalidFilterError, \
     LDAPInvalidScopeError, LDAPAttributeError
 

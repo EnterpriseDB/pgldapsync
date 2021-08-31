@@ -11,6 +11,7 @@
 """Postgres connection functions."""
 
 import sys
+
 import psycopg2
 
 

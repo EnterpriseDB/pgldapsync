@@ -16,10 +16,7 @@
 import argparse
 import os
 
-try:
-    import ConfigParser
-except ImportError:
-    import configparser as ConfigParser
+import configparser
 
 from pgldapsync.ldaputils.connection import connect_ldap_server
 from pgldapsync.ldaputils.users import *
@@ -56,7 +53,7 @@ def read_config(file):
     Returns:
         ConfigParser: The config object
     """
-    config = ConfigParser.ConfigParser()
+    config = configparser.ConfigParser()
 
     # Read the default config
     defaults = os.path.join(os.path.dirname(os.path.realpath(__file__)),
@@ -64,7 +61,7 @@ def read_config(file):
 
     try:
         config.read(defaults)
-    except ConfigParser.Error as exception:
+    except configparser.Error as exception:
         sys.stderr.write(
             "Error reading default configuration file (%s): %s\n" %
             (defaults, exception))
@@ -72,7 +69,7 @@ def read_config(file):
 
     try:
         config.read(file)
-    except ConfigParser.Error as exception:
+    except configparser.Error as exception:
         sys.stderr.write(
             "Error reading user configuration file (%s): %s\n" %
             (file, exception))
