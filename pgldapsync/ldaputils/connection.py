@@ -70,7 +70,7 @@ def connect_ldap_server(config):
     server = Server(uri.hostname,
                     port=uri.port,
                     tls=tls,
-                    use_ssl=(uri.scheme == 'ldaps'))
+                    use_ssl=uri.scheme == 'ldaps')
 
     # Debug
     if config.getboolean('ldap', 'debug'):
