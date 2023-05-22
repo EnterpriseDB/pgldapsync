@@ -3,7 +3,7 @@
 This Python module allows you to synchronise Postgres login roles
 with users in an LDAP directory.
 
-*pgldapsync requires Python 3.5 or later.*
+*pgldapsync is supported on Python 3.7 or later.*
 
 In order to use it, you will need to create a _config.ini_ 
 file containing the site-specific configuration you require. 
@@ -36,4 +36,4 @@ environment:
 
     python3 setup.py sdist bdist_wheel --universal
 
-Copyright 2018 - 2021, EnterpriseDB Corporation
+Copyright 2018 - 2023, EnterpriseDB Corporation

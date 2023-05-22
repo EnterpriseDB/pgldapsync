@@ -4,7 +4,7 @@
 #
 # Synchronise Postgres roles with users in an LDAP directory.
 #
-# Copyright 2018 - 2021, EnterpriseDB Corporation
+# Copyright 2018 - 2023, EnterpriseDB Corporation
 #
 ###############################################################################
 
@@ -21,7 +21,7 @@ with open('README.md', 'r', encoding='utf-8') as fh:
 
 setuptools.setup(
     name="pgldapsync",
-    version="2.0.0",
+    version="3.0.0",
     author="Dave Page",
     author_email="dave.page@enterprisedb.com",
     description="Synchronise LDAP users to Postgres",
@@ -31,14 +31,14 @@ setuptools.setup(
     url="https://github.com/enterprisedb/pgldapsync",
     packages=setuptools.find_packages(),
     install_requires=required,
-    python_requires='>=3.5',
+    python_requires='>=3.7',
     classifiers=[
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
         "License :: OSI Approved :: PostgreSQL License",
         "Operating System :: OS Independent",
     ],
